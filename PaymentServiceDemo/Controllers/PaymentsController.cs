@@ -28,11 +28,11 @@ namespace PaymentServiceDemo.Controllers
         public IEnumerable<Payment> Get()
         {
             var paymentList = new Payment[] {
-                new Payment { Amount = 2000,Currency = "Pounds", DateSubmitted=new DateTime(2020,2,25),SourceAccount =1234, DestAccount=1122 },
-                new Payment { Amount = 100,Currency = "Dollars", DateSubmitted=new DateTime(2021,2,25),SourceAccount =1234, DestAccount=1122 },
-                new Payment { Amount = 400,Currency = "Rupee", DateSubmitted=new DateTime(2015,3,25),SourceAccount =1234, DestAccount=1122 },
-                new Payment { Amount = 10,Currency = "Dhiram", DateSubmitted=new DateTime(2016,5,25),SourceAccount =1234, DestAccount=1122 },
-                new Payment { Amount = 4000,Currency = "Rouble", DateSubmitted=new DateTime(2013,1,25),SourceAccount =1234, DestAccount=1122 },
+                new Payment { Amount = 2000,Currency = "Pounds", DateSubmitted=new DateTime(2020,2,25),SourceAccount =4323, DestAccount=1122 },
+                new Payment { Amount = 100,Currency = "Dollars", DateSubmitted=new DateTime(2021,2,25),SourceAccount =1231, DestAccount=2233 },
+                new Payment { Amount = 400,Currency = "Rupee", DateSubmitted=new DateTime(2015,3,25),SourceAccount =1234, DestAccount=3344 },
+                new Payment { Amount = 10,Currency = "Dhiram", DateSubmitted=new DateTime(2016,5,25),SourceAccount =5432, DestAccount=4455 },
+                new Payment { Amount = 4000,Currency = "Rouble", DateSubmitted=new DateTime(2013,1,25),SourceAccount =6543, DestAccount=5566 },
             };
 
             return paymentList;
@@ -49,7 +49,7 @@ namespace PaymentServiceDemo.Controllers
         {
             IEnumerable<Payment> sortedPaymentList = paymentList;
 
-            //try
+            try
             {
                 if (!paymentList.Any() || paymentList == null)
                 {
@@ -79,10 +79,10 @@ namespace PaymentServiceDemo.Controllers
                     sortedPaymentList = paymentList.OrderBy(x => x.Amount).ToList();
                 }
             }
-            //catch (Exception ex)
-            //{
-            //    _logger.LogError(ex, ex.Message);
-            //}
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
             return Ok(sortedPaymentList);
         }
 
