@@ -1,4 +1,11 @@
-﻿namespace PaymentServiceDemo.Controllers
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using PaymentServiceDemo.Business;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace PaymentServiceDemo.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -38,26 +45,26 @@
         /// <param name="sortOrder"></param>
         /// <returns></returns>
         [HttpPost]
-        public IEnumerable<Payment> SortPayments(IEnumerable<Payment> paymentList, string sortOrder)
+        public IActionResult SortPayments(IEnumerable<Payment> paymentList, string sortOrder)
         {
             IEnumerable<Payment> sortedPaymentList = paymentList;
 
             //try
             {
-                if (paymentList == null)
+                if (!paymentList.Any() || paymentList == null)
                 {
-                    throw new ArgumentException($"Payment list {paymentList} cannot be empty.", nameof(paymentList));
+                    return BadRequest("Payment List cannot be empty");
                 }
                 if (string.IsNullOrEmpty(sortOrder))
                 {
-                    throw new ArgumentException($"Sort order {sortOrder} cannot be empty.", nameof(sortOrder));
+                    return BadRequest("SortOrder must be Date or Amount");
                 }
 
                 foreach (var payment in paymentList)
                 {
                     if (payment.Amount < 0)
                     {
-                        throw new Exception("Payment Amount cannot be negative");
+                        return BadRequest("Payment Amount must be greater than zero");
                     }
                 }
 
@@ -76,7 +83,7 @@
             //{
             //    _logger.LogError(ex, ex.Message);
             //}
-            return sortedPaymentList;
+            return Ok(sortedPaymentList);
         }
 
         //[HttpPost]
